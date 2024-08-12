@@ -2,9 +2,13 @@ import os
 from flask import Flask, render_template, redirect, url_for, flash, request, Blueprint
 from flask_login import LoginManager, login_user, logout_user, UserMixin, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = os.environ.get('SECRET_KEY', 'mysecret')
+app.secret_key = os.getenv('SECRET_KEY', 'mysecret')
 
 
 login_manager = LoginManager()
@@ -12,7 +16,7 @@ login_manager.init_app(app)
 login_manager.login_view = 'auth.login'
 
 
-users = {}
+users = {}  
 
 class User(UserMixin):
     def __init__(self, id):
@@ -25,6 +29,8 @@ class User(UserMixin):
 @login_manager.user_loader
 def load_user(user_id):
     return User.get(user_id)
+
+
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -43,6 +49,7 @@ def login():
             return redirect(url_for('main.about'))
         flash('Invalid credentials, please try again.', 'error')
     return render_template('login.html')
+
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
@@ -69,13 +76,11 @@ def logout():
 
 app.register_blueprint(auth_bp)
 
+
+
 main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
-def about_redirect():
-    return redirect(url_for('main.about'))
-
-@main_bp.route('/about')
 def about():
     return render_template('about.html')
 
@@ -94,7 +99,7 @@ def contact():
         email = request.form['email']
         message = request.form['message']
         flash('Your message has been sent successfully!', 'success')
-        return redirect(url_for('main.balloon'))  
+        return redirect(url_for('main.balloon'))  # Redirect to the balloon page
     return render_template('contact.html')
 
 @main_bp.route('/balloon')
