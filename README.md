@@ -48,7 +48,6 @@ Interactive "Solar System" visualisation on “Skills” page using Javascript
 
 User authentication with fields to gather user’s details.
 
-
 ## Features
 
 * User Authentication: Users can register, log in, and log out
@@ -140,7 +139,6 @@ Githerd.render.io/
    ├── 404.html
    └── 500.html
 
-
 ## Dependencies
 
 * blinker==1.8.2
@@ -166,4 +164,3 @@ If you have any questions or suggestions, feel free to reach out:
 * Name:Kareemat
 * Email: <kmat.adebisi@gmail.com>
 * GitHub:Githerd
-
