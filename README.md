@@ -1,4 +1,4 @@
-# Portfolio Website -
+# Portfolio Website - Flask
 
 This project is a personal portfolio website that demonstrates my projects, skills, and goals, providing a platform to introduce myself to potential employers or collaborators. The website has basic functionalities including a login page, home page, contact page, and projects page. The application uses Flask for the backend and includes HTML templates, CSS and Javascript for styling.
 
@@ -39,6 +39,15 @@ List of projects with descriptions and technologies used.
 ### Login Page (/login)
 
 Simple login form with username and password fields.
+
+## Skills Page (/skills)
+
+Interactive "Solar System" visualisation on “Skills” page using Javascript
+
+## Register Page (/register)
+
+User authentication with fields to gather user’s details.
+
 
 ## Features
 
