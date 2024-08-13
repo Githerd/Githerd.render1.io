@@ -9,7 +9,7 @@ load_dotenv()
 app = Flask(__name__)
 
 
-app.secret_key = os.getenv('SECRET_KEY', 'yumyumsugar_1')
+app.secret_key = os.getenv('SECRET_KEY', os.urandom(24))
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -29,7 +29,6 @@ class User(UserMixin):
 @login_manager.user_loader
 def load_user(user_id):
     return User.get(user_id)
-
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -74,7 +73,6 @@ def logout():
 
 app.register_blueprint(auth_bp)
 
-
 main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
@@ -95,7 +93,7 @@ def contact():
         name = request.form['name']
         email = request.form['email']
         message = request.form['message']
-        # Here, you might want to add logic to handle the message, such as saving it to a database
+        # Logic to handle the message, such as saving it to a database, would go here
         flash('Your message has been sent successfully!', 'success')
         return redirect(url_for('main.balloon'))  # Redirect to the balloon page after submission
     return render_template('contact.html')
@@ -105,7 +103,6 @@ def balloon():
     return render_template('balloon.html')
 
 app.register_blueprint(main_bp)
-
 
 @app.errorhandler(404)
 def page_not_found(e):
