@@ -1,6 +1,5 @@
-document.addEventListener("DOMContentLoaded", () => {
-    // Contact Form Submission
-    const contactForm = document.getElementById("contact-form");
+document.addEventListener("DOMContentLoaded", () =>
+      const contactForm = document.getElementById("contact-form");
     const feedbackDiv = document.getElementById("feedback");
 
     if (contactForm) {
@@ -23,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     feedbackDiv.textContent = "Your message has been sent successfully!";
                     feedbackDiv.style.color = "green";
                     contactForm.reset();
+                    window.location.href = "{{ url_for('main.balloon') }}";  // Redirect to balloon page
                 })
                 .catch(error => {
                     feedbackDiv.textContent = `Failed to send message: ${error.response?.data?.error || error.message}`;
@@ -31,7 +31,23 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Flip Effects Initialization
+
+if (window.location.pathname === "{{ url_for('main.balloon') }}") {
+        const balloon = document.querySelector('.balloon');
+        if (balloon) {
+            balloon.textContent = '🎈';  // Add balloon emoji or any content you want
+
+          
+            balloon.style.animation = 'float 5s linear infinite';
+
+           
+            setTimeout(() => {
+                balloon.remove();
+            }, 5000); // Adjust time if needed
+        }
+    }
+
+
     function initializeFlipEffects() {
         const flipContainers = document.querySelectorAll('.flip-container');
 
@@ -43,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     initializeFlipEffects();
 
-      // Login Form Submission
+    
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
         loginForm.addEventListener('submit', (event) => {
@@ -67,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Project Display and Background Color Change
+    
     const colors = [
     "#000080", "#00008B", "#0000CD", "#0000FF", "#006400", "#008000", "#008080",
     "#008B8B", "#00BFFF", "#00CED1", "#00FA9A", "#00FF00", "#00FF7F", "#00FFFF",
@@ -150,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     }
 
-// Random Background Color Change
+
 function getRandomColor() {
     const letters = '0123456789ABCDEF';
     let color = '#';
