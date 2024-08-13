@@ -32,9 +32,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Flip Effects Initialization
+    function initializeFlipEffects() {
+        const flipContainers = document.querySelectorAll('.flip-container');
+
+        flipContainers.forEach(container => {
+            container.addEventListener('click', () => {
+                container.classList.toggle('flip');
+            });
+        });
+    }
     initializeFlipEffects();
 
-    // Login Form Submission
+      // Login Form Submission
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
         loginForm.addEventListener('submit', (event) => {
@@ -60,196 +69,86 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Project Display and Background Color Change
     const colors = [
-        "#000080", "#00008B", "#0000CD", "#0000FF", "#006400", "#008000", "#008080",
-        // ... (other colors)
-        "#FFFFF0", "#FFFFFF"
-    ];
+    "#000080", "#00008B", "#0000CD", "#0000FF", "#006400", "#008000", "#008080",
+    "#008B8B", "#00BFFF", "#00CED1", "#00FA9A", "#00FF00", "#00FF7F", "#00FFFF",
+    "#191970", "#1E90FF", "#20B2AA", "#228B22", "#2E8B57", "#2F4F4F", "#32CD32",
+    "#3CB371", "#40E0D0", "#4169E1", "#4682B4", "#483D8B", "#48D1CC", "#4B0082",
+    "#556B2F", "#5F9EA0", "#6495ED", "#663399", "#66CDAA", "#696969", "#6A5ACD",
+    "#6B8E23", "#708090", "#778899", "#7B68EE", "#7CFC00", "#7FFF00", "#7FFFD4",
+    "#800000", "#800080", "#808000", "#808080", "#87CEEB", "#87CEFA", "#8A2BE2",
+    "#8B0000", "#8B008B", "#8B4513", "#8FBC8F", "#90EE90", "#9370DB", "#9400D3",
+    "#98FB98", "#9932CC", "#9ACD32", "#A0522D", "#A52A2A", "#A9A9A9", "#ADD8E6",
+    "#ADFF2F", "#AFEEEE", "#B0C4DE", "#B0E0E6", "#B22222", "#B8860B", "#BA55D3",
+    "#BC8F8F", "#BDB76B", "#C0C0C0", "#C71585", "#CD5C5C", "#CD853F", "#D2691E",
+    "#D2B48C", "#D3D3D3", "#D8BFD8", "#DA70D6", "#DAA520", "#DB7093", "#DC143C",
+    "#DCDCDC", "#DDA0DD", "#DEB887", "#E0FFFF", "#E6E6FA", "#E9967A", "#EE82EE",
+    "#EEE8AA", "#F08080", "#F0E68C", "#F0F8FF", "#F0FFF0", "#F0FFFF", "#F4A460",
+    "#F5DEB3", "#F5F5DC", "#F5F5F5", "#F5FFFA", "#F8F8FF", "#FA8072", "#FAEBD7",
+    "#FAF0E6", "#FAFAD2", "#FDF5E6", "#FF0000", "#FF00FF", "#FF1493", "#FF4500",
+    "#FF6347", "#FF69B4", "#FF7F50", "#FF8C00", "#FFA07A", "#FFA500", "#FFB6C1",
+    "#FFC0CB", "#FFD700", "#FFDAB9", "#FFDEAD", "#FFE4B5", "#FFE4C4", "#FFE4E1",
+    "#FFEBCD", "#FFEFD5", "#FFF0F5", "#FFF5EE", "#FFF8DC", "#FFFACD", "#FFFAF0",
+    "#FFFAFA", "#FFFF00", "#FFFFE0", "#FFFFF0", "#FFFFFF"
+];
 
+document.addEventListener('DOMContentLoaded', () => {
+   
     const btn = document.getElementById("btn");
     const colorSpan = document.querySelector(".color");
     const projectDisplay = document.getElementById('project-display');
 
-    if (btn && projectDisplay) {
-        const projects = [
-            {
-                title: "Project One",
-                description: "A comedy website using HTML and CSS",
-                technologies: "HTML and CSS",
-                link: "https://Githerd.github.io"
-            },
-            // ... (other projects)
-            {
-                title: "Project Five",
-                description: "An e-commerce website",
-                technologies: "Django, HTML, CSS, JavaScript",
-                link: "https://Githerd.shop.io"
-            }
-        ];
+  
+    if (!btn || !projectDisplay) {
+        console.error("Essential DOM elements not found.");
+        return;
+    }
 
-        let currentProjectIndex = 0;
-
-        function displayProject(index) {
-            const project = projects[index];
-            projectDisplay.innerHTML = `
-                <h2>${project.title}</h2>
-                <p><strong>Description:</strong> ${project.description}</p>
-                <p><strong>Technologies:</strong> ${project.technologies}</p>
-                <a href="${project.link}" target="_blank">View Project</a>
-            `;
+  
+    const projects = [
+        {
+            title: "Project One",
+            description: "A comedy website using HTML and CSS",
+            technologies: "HTML and CSS",
+            link: "https://Githerd.github.io"
+        },
+        {
+            title: "Project Two",
+            description: "A website created with HTML, CSS, and Javascript",
+            technologies: "HTML, CSS, and Javascript",
+            link: "https://Githerd.javascript.io"
+        },
+        {
+            title: "Project Three",
+            description: "A website showcasing all my previous work",
+            technologies: "HTML, CSS, Javascript, Python, and Flask",
+            link: "https://Githerd.render.io"
+        },
+        {
+            title: "Project Four",
+            description: "A dynamic blog platform",
+            technologies: "React, Node.js, MongoDB",
+            link: "https://Githerd.blog.io"
+        },
+        {
+            title: "Project Five",
+            description: "An e-commerce website",
+            technologies: "Django, HTML, CSS, JavaScript",
+            link: "https://Githerd.shop.io"
         }
+    ];
 
-        function getRandomColor() {
-            const randomIndex = Math.floor(Math.random() * colors.length);
-            return colors[randomIndex];
-        }
+    let currentProjectIndex = 0;
 
-        btn.addEventListener("click", () => {
-            const randomColor = getRandomColor();
-            document.body.style.backgroundColor = randomColor;
-            if (colorSpan) {
-                colorSpan.textContent = randomColor;
-            }
-
-            currentProjectIndex = (currentProjectIndex + 1) % projects.length;
-            displayProject(currentProjectIndex);
-        });
-
-        displayProject(currentProjectIndex);
-
-        const initialColor = getRandomColor();
-        document.body.style.backgroundColor = initialColor;
-        if (colorSpan) {
-            colorSpan.textContent = initialColor;
-        }
+   
+    function displayProject(index) {
+        const project = projects[index];
+        projectDisplay.innerHTML = `
+            <h2>${project.title}</h2>
+            <p><strong>Description:</strong> ${project.description}</p>
+            <p><strong>Technologies:</strong> ${project.technologies}</p>
+            <a href="${project.link}" target="_blank">View Project</a>
+        `;
     }
-
-    // Register Form Submission and User Fetch
-    const registerForm = document.getElementById("register-form");
-
-    if (registerForm) {
-        const getButton = document.createElement("button");
-        getButton.textContent = "Fetch Users (GET)";
-        document.body.appendChild(getButton);
-
-        getButton.addEventListener("click", () => {
-            axios
-                .get("https://reqres.in/api/users?page=2")
-                .then((response) => {
-                    feedbackDiv.textContent = `Fetched Users: ${JSON.stringify(response.data)}`;
-                    console.log(response.data);
-                })
-                .catch((error) => {
-                    feedbackDiv.textContent = `Error Fetching Users: ${error.message}`;
-                    console.error(error);
-                });
-        });
-
-        registerForm.addEventListener("submit", (event) => {
-            event.preventDefault();
-
-            const formData = {
-                username: document.getElementById("username").value,
-                email: document.getElementById("email").value,
-                password: document.getElementById("password").value,
-                confirmPassword: document.getElementById("confirm-password").value
-            };
-
-            if (formData.password !== formData.confirmPassword) {
-                feedbackDiv.textContent = "Passwords do not match!";
-                return;
-            }
-
-            axios
-                .post("https://reqres.in/api/register", {
-                    email: formData.email,
-                    password: formData.password,
-                })
-                .then((response) => {
-                    feedbackDiv.textContent = `Registration Successful! ${JSON.stringify(response.data)}`;
-                    console.log(response.data);
-                })
-                .catch((error) => {
-                    feedbackDiv.textContent = `Registration Failed! ${error.response?.data?.error || error.message}`;
-                    console.error(error);
-                });
-        });
-
-        const postButton = document.createElement("button");
-        postButton.textContent = "Simulate Registration (POST)";
-        document.body.appendChild(postButton);
-
-        postButton.addEventListener("click", () => {
-            axios
-                .post("https://reqres.in/api/register", {
-                    email: "eve.holt@reqres.in",
-                    password: "pistol",
-                })
-                .then((response) => {
-                    feedbackDiv.textContent = `Simulated Registration Successful! ${JSON.stringify(response.data)}`;
-                    console.log(response.data);
-                })
-                .catch((error) => {
-                    feedbackDiv.textContent = `Simulated Registration Failed! ${error.response?.data?.error || error.message}`;
-                    console.error(error);
-                });
-        });
-    }
-
-    // Sun and Orbit Elements Initialization
-    const sun = document.getElementById('sun');
-    if (sun) {
-        console.log("Sun element found:", sun);
-    } else {
-        console.error("Sun element not found!");
-    }
-
-    const orbits = document.querySelectorAll('.orbit');
-    if (orbits.length > 0) {
-        console.log("Orbits found:", orbits.length);
-    } else {
-        console.error("No orbits found!");
-    }
-
-    orbits.forEach((orbit, index) => {
-        console.log(`Setting animation delay for orbit ${index + 1}`);
-        orbit.style.animationDelay = `${index * 2}s`;
-    });
-
-    // Balloon Creation on Form Submission
-    const form = document.querySelector('form');
-    if (form) {
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const balloon = document.createElement('div');
-            balloon.classList.add('balloon');
-            balloon.textContent = '🎈';
-            document.body.appendChild(balloon);
-
-            const submitButton = form.querySelector('input[type="submit"], button[type="submit"]');
-            const rect = submitButton.getBoundingClientRect();
-            balloon.style.left = `${rect.left + window.scrollX}px`;
-            balloon.style.top = `${rect.top + window.scrollY}px`;
-
-            balloon.style.animation = 'float 5s linear infinite';
-
-            setTimeout(() => {
-                balloon.remove();
-            }, 5000);
-        });
-    }
-});
-
-// Flip Effects Initialization Function
-function initializeFlipEffects() {
-    const flipContainers = document.querySelectorAll('.flip-container');
-
-    flipContainers.forEach(container => {
-        container.addEventListener('click', () => {
-            container.classList.toggle('flip');
-        });
-    });
-}
 
 // Random Background Color Change
 function getRandomColor() {
