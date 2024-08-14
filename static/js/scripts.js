@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Contact Form Submission
+
     const contactForm = document.getElementById("contact-form");
     const feedbackDiv = document.getElementById("feedback");
 

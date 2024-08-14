@@ -42,7 +42,7 @@ Simple login form with username and password fields.
 
 ## Skills Page (/skills)
 
-Interactive "Solar System" visualisation on “Skills” page using Javascript
+ visualisation on “Skills” page using Javascript
 
 ## Register Page (/register)
 
