@@ -1,49 +1,136 @@
-from flask import Flask, render_template, redirect, url_for, flash
+import os
+from flask import Flask, render_template, redirect, url_for, flash, request, Blueprint
+from flask_login import LoginManager, login_user, logout_user, UserMixin, login_required, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'
+app.secret_key = os.getenv('SECRET_KEY', 'yumyumsugar_1')
 
-@app.route('/')
-def home():
-    return render_template('home.html')
 
-@app.route('/index')
-def index():
-    return render_template('index.html')
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'auth.login'
 
-@app.route('/clubs')
-def clubs():
-    return render_template('clubs.html')
 
-@app.route('/contact')
-def contact():
-    return render_template('contact.html')
+users = {}
 
-@app.route('/spin')
-def spin():
-    return render_template('spin.html')
 
-@app.route('/login')
+class User(UserMixin):
+   def __init__(self, id):
+       self.id = id
+
+   @staticmethod
+   def get(user_id):
+       return User(user_id) if user_id in users else None
+
+@login_manager.user_loader
+def load_user(user_id):
+   return User.get(user_id)
+
+
+auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
+
+@auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+   if current_user.is_authenticated:
+       return redirect(url_for('home'))
 
-@app.route('/register')
+   if request.method == 'POST':
+       username = request.form['username']
+       password = request.form['password']
+       stored_password = users.get(username)
+       if stored_password and check_password_hash(stored_password, password):
+           login_user(User(username))
+           flash('Login successful!', 'success')
+           return redirect(url_for('main.about'))
+       flash('Invalid credentials, please try again.', 'error')
+   return render_template('login.html')
+
+
+app.register_blueprint(auth_bp)
+
+@auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
-    return render_template('register.html')
+   if current_user.is_authenticated:
+       return redirect(url_for('main.about'))
 
-@app.route('/logout')
+   if request.method == 'POST':
+       username = request.form['username']
+       password = request.form['password']
+       if username in users:
+           flash('Username already exists, please choose another one.', 'error')
+       else:
+           users[username] = generate_password_hash(password)
+           flash('Registration successful! Please login.', 'success')
+           return redirect(url_for('auth.login'))
+   return render_template('register.html')
+
+@auth_bp.route('/logout', methods=['POST'])
+@login_required
 def logout():
-    
-    flash('You have been logged out', 'success')
-    return redirect(url_for('home'))
+   logout_user()
+   flash('You have been logged out.', 'success')
+   return redirect(url_for('auth.login'))
+
+
+app.register_blueprint(auth_bp)
+
+
+main_bp = Blueprint('main', __name__)
+
+@main_bp.route('/')
+def home():
+  return render_template('home.html')
+
+@main_bp.route('/index')
+def index():
+  return redirect(url_for('index.html'))
+
+@main_bp.route('/clubs')
+def clubs():
+  return render_template('clubs.html')
+
+@main_bp.route('/contact', methods=['GET', 'POST'])
+def contact():
+   if request.method == 'POST':
+       name = request.form['name']
+       email = request.form['email']
+       message = request.form['message']
+       flash('Your message has been sent successfully!', 'success')
+       return redirect(url_for('main.balloon'))
+   return render_template('contact.html')
+
+@main_bp.route('/balloon', methods=['GET', 'POST'])
+def balloon():
+   if request.method == 'POST':
+       name = request.form.get('name')
+       email = request.form.get('email')
+       choose = request.form.get('choose')
+       comment = request.form.get('comment')
+
+       flash(f'Thank you, {name}. Your submission has been received.', 'success')
+
+   return render_template('balloon.html')
+
+@main_bp.route('/spin')
+def spin():
+  return render_template('spin.html')
+
+
+app.register_blueprint(main_bp)
+
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('404.html'), 404
+   return render_template('404.html'), 404
 
 @app.errorhandler(500)
-def server_error(e):
-    return render_template('500.html'), 500
+def internal_server_error(e):
+   return render_template('500.html'), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+   app.run(debug=True)

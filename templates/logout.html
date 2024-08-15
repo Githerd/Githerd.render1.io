@@ -1,15 +1,26 @@
-<nav class="navbar">
-    <a href="{{ url_for('main.home') }}" class="navbar-item">
-        <img src="logo.jpg" alt="Comedy Club Logo" width="48" height="48">
-    </a>
-    <a href="{{ url_for('main.index') }}" class="navbar-item">Comedians</a>
-    <a href="{{ url_for('main.clubs') }}" class="navbar-item">Visit us</a>
-    <a href="{{ url_for('main.contact') }}" class="navbar-item">Contact Me</a>
-    <a href="{{ url_for('main.spin') }}" class="navbar-item">Spin</a>
-    <a href="{{ url_for('auth.login') }}" class="navbar-item">Log In</a>
-    <a href="{{ url_for('auth.register') }}" class="navbar-item">Register Now</a>
-</nav>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Comedy Club</title>
+ <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
 
+ <nav class="navbar" id="nav">
+     
+        <a href="{{ url_for('main.home') }}" class="navbar-item">
+                 <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Comedy Club Logo" id="logo" width="48" height="48">
+             </a>
+         
+         <a href="{{ url_for('home') }}">Home</a>
+         <a href="{{ url_for('about') }}">About Us</a>
+         <a href="{{ url_for('contact') }}">Contact</a>
+         <id="login-link"><a href="{{ url_for('login') }}">Login</a>
+         <id="register-link"><a href="{{ url_for('register') }}">Register</a>
+         <id="logout-link"><a href="{{ url_for('logout') }}" id="logout">Logout</a>
+ </nav>
 
     <main class="container">
         <h1>You have successfully logged out</h1>
