@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = os.getenv('SECRET_KEY', 'yumyumsugar_1')
+app.secret_key = os.getenv('SECRET_KEY', 'mysecret')
 
 
 login_manager = LoginManager()
@@ -16,66 +16,63 @@ login_manager.init_app(app)
 login_manager.login_view = 'auth.login'
 
 
-users = {}
-
+users = {}  
 
 class User(UserMixin):
-   def __init__(self, id):
-       self.id = id
+    def __init__(self, id):
+        self.id = id
 
-   @staticmethod
-   def get(user_id):
-       return User(user_id) if user_id in users else None
+    @staticmethod
+    def get(user_id):
+        return User(user_id) if user_id in users else None
 
 @login_manager.user_loader
 def load_user(user_id):
-   return User.get(user_id)
+    return User.get(user_id)
+
 
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
-   if current_user.is_authenticated:
-       return redirect(url_for('home'))
+    if current_user.is_authenticated:
+        return redirect(url_for('main.about'))
+    
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        stored_password = users.get(username)
+        if stored_password and check_password_hash(stored_password, password):
+            login_user(User(username))
+            flash('Login successful!', 'success')
+            return redirect(url_for('main.about'))
+        flash('Invalid credentials, please try again.', 'error')
+    return render_template('login.html')
 
-   if request.method == 'POST':
-       username = request.form['username']
-       password = request.form['password']
-       stored_password = users.get(username)
-       if stored_password and check_password_hash(stored_password, password):
-           login_user(User(username))
-           flash('Login successful!', 'success')
-           return redirect(url_for('main.about'))
-       flash('Invalid credentials, please try again.', 'error')
-   return render_template('login.html')
-
-
-app.register_blueprint(auth_bp)
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
-   if current_user.is_authenticated:
-       return redirect(url_for('main.about'))
-
-   if request.method == 'POST':
-       username = request.form['username']
-       password = request.form['password']
-       if username in users:
-           flash('Username already exists, please choose another one.', 'error')
-       else:
-           users[username] = generate_password_hash(password)
-           flash('Registration successful! Please login.', 'success')
-           return redirect(url_for('auth.login'))
-   return render_template('register.html')
+    if current_user.is_authenticated:
+        return redirect(url_for('main.about'))
+    
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        if username in users:
+            flash('Username already exists, please choose another one.', 'error')
+        else:
+            users[username] = generate_password_hash(password)
+            flash('Registration successful! Please login.', 'success')
+            return redirect(url_for('auth.login'))
+    return render_template('register.html')
 
 @auth_bp.route('/logout', methods=['POST'])
 @login_required
 def logout():
-   logout_user()
-   flash('You have been logged out.', 'success')
-   return redirect(url_for('auth.login'))
-
+    logout_user()
+    flash('You have been logged out.', 'success')
+    return redirect(url_for('auth.login'))
 
 app.register_blueprint(auth_bp)
 
@@ -134,3 +131,4 @@ def internal_server_error(e):
 
 if __name__ == '__main__':
    app.run(debug=True)
+
