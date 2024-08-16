@@ -80,19 +80,19 @@ app.register_blueprint(auth_bp)
 main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
-def home():
+def main.home():
   return render_template('home.html')
 
 @main_bp.route('/index')
-def index():
+def main.index():
   return redirect(url_for('index.html'))
 
 @main_bp.route('/clubs')
-def clubs():
+def main.clubs():
   return render_template('clubs.html')
 
 @main_bp.route('/contact', methods=['GET', 'POST'])
-def contact():
+def main.contact():
    if request.method == 'POST':
        name = request.form['name']
        email = request.form['email']
@@ -102,7 +102,7 @@ def contact():
    return render_template('contact.html')
 
 @main_bp.route('/balloon', methods=['GET', 'POST'])
-def balloon():
+def main.balloon():
    if request.method == 'POST':
        name = request.form.get('name')
        email = request.form.get('email')
@@ -114,7 +114,7 @@ def balloon():
    return render_template('balloon.html')
 
 @main_bp.route('/spin')
-def spin():
+def main.spin():
   return render_template('spin.html')
 
 
