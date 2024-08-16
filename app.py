@@ -80,29 +80,29 @@ app.register_blueprint(auth_bp)
 main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
-def main.home():
-  return render_template('home.html')
+def home():
+  return render_template('main.home')
 
 @main_bp.route('/index')
-def main.index():
-  return redirect(url_for('index.html'))
+def index():
+  return redirect(url_for('main.index'))
 
 @main_bp.route('/clubs')
-def main.clubs():
-  return render_template('clubs.html')
+def clubs():
+  return render_template('main.clubs')
 
 @main_bp.route('/contact', methods=['GET', 'POST'])
-def main.contact():
+def contact():
    if request.method == 'POST':
        name = request.form['name']
        email = request.form['email']
        message = request.form['message']
        flash('Your message has been sent successfully!', 'success')
        return redirect(url_for('main.balloon'))
-   return render_template('contact.html')
+   return render_template('main.contact')
 
 @main_bp.route('/balloon', methods=['GET', 'POST'])
-def main.balloon():
+def balloon():
    if request.method == 'POST':
        name = request.form.get('name')
        email = request.form.get('email')
@@ -111,11 +111,11 @@ def main.balloon():
 
        flash(f'Thank you, {name}. Your submission has been received.', 'success')
 
-   return render_template('balloon.html')
+   return render_template('main.balloon')
 
 @main_bp.route('/spin')
-def main.spin():
-  return render_template('spin.html')
+def spin():
+  return render_template('main.spin')
 
 
 app.register_blueprint(main_bp)
@@ -123,11 +123,11 @@ app.register_blueprint(main_bp)
 
 @app.errorhandler(404)
 def page_not_found(e):
-   return render_template('404.html'), 404
+   return render_template('main.404'), 404
 
 @app.errorhandler(500)
 def internal_server_error(e):
-   return render_template('500.html'), 500
+   return render_template('main.500'), 500
 
 if __name__ == '__main__':
    app.run(debug=True)
