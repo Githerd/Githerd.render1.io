@@ -10,27 +10,32 @@ from datetime import datetime
 from flask_mail import Mail, Message
 from flask_sqlalchemy import SQLAlchemy
 
+# Load environment variables
 load_dotenv()
 
+# Initialize the Flask application
 app = Flask(__name__)
 
 # Mail Configuration
-app.config['MAIL_SERVER'] = 'kmat.adebisi@gmail.com'
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587  
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = os.getenv('EMAIL_USER')
-app.config['MAIL_PASSWORD'] = os.getenv('EMAIL_PASS')
-app.config['MAIL_DEFAULT_SENDER'] = os.getenv('EMAIL_USER')
+app.config['MAIL_USERNAME'] = os.getenv('kmat.adebisi@gmail.com')
+app.config['MAIL_PASSWORD'] = os.getenv('yumyumsugar_1')
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv('Kareemat Adebisi')
 
 # Database Configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db' 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-app.secret_key = os.getenv('SECRET_KEY', 'supersecretkey')
+# Secret key for session management
+app.secret_key = os.getenv('SECRET_KEY', 'yumyumsugar_1')
 
+# Initialize extensions
 db = SQLAlchemy(app)
 mail = Mail(app)
 
+# Define the ContactMessage model
 class ContactMessage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
@@ -38,15 +43,19 @@ class ContactMessage(db.Model):
     message = db.Column(db.Text, nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
+# Create the database tables
 with app.app_context():
     db.create_all()
 
+# Initialize Flask-Login
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'auth.login'
 
+# In-memory users storage (use a database in production)
 users = {}
 
+# Define the User class for Flask-Login
 class User(UserMixin):
     def __init__(self, id):
         self.id = id
