@@ -12,13 +12,14 @@
         <a href="{{ url_for('main.home') }}" class="navbar-item">
             <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Comedy Club Logo" width="48" height="48">
         </a>
-        <a href="{{ url_for('main.home') }}" class="navbar-item">Comedians</a>
+        <a href="{{ url_for('main.index') }}" class="navbar-item">Comedians</a>
         <a href="{{ url_for('main.clubs') }}" class="navbar-item">Visit us</a>
         <a href="{{ url_for('main.contact') }}" class="navbar-item">Contact Me</a>
         <a href="{{ url_for('main.spin') }}" class="navbar-item">Spin</a>
         <a href="{{ url_for('auth.login') }}" class="navbar-item">Log In</a>
         <a href="{{ url_for('auth.register') }}" class="navbar-item">Register Now</a>
     </nav>
+    
 <main>
     <div class="container">
         <h1>Login</h1>
