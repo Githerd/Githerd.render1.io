@@ -117,15 +117,19 @@ main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
 def home():
+    return render_template('main/home.html')
+
+@main_bp.route('/index')
+def index():
     return render_template('main/index.html')
+    
+@main_bp.route('/club')
+def club():
+    return render_template('main/club.html')
 
 @main_bp.route('/spin')
 def spin():
     return render_template('main/spin.html')
-
-@main_bp.route('/projects')
-def projects():
-    return render_template('main/projects.html')
 
 # Contact Form Handling
 class ContactForm(FlaskForm):
