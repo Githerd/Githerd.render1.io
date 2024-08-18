@@ -19,50 +19,11 @@
         <a href="{{ url_for('auth.register') }}" class="navbar-item" id="register-link">Register</a>
     </nav>
 
-    <section>
-        <form action="{{ url_for('main.balloon') }}" method="post">
-            <fieldset>
-                <label for="name">Name:</label><br>
-                <input type="text" id="name" name="name" required><br><br>
-    
-                <label for="email">Email:</label><br>
-                <input type="email" id="email" name="email" required><br><br>
-    
-                <label for="choose">How do you feel about the page?</label><br>
-                <select id="choose" name="choose" required>
-                    <option value="I love it">I love it</option>
-                    <option value="I like it">I like it</option>
-                    <option value="Not for me">Not for me</option>
-                    <option value="Could be better">Could be better</option>
-                    <option value="Not another page about comedy">Not another page about comedy</option>
-                    <option value="Nope, I'm out">Nope, I'm out</option>
-                </select><br><br>
-    
-                <label for="comment">Comment (max 1600 characters):</label><br>
-                <textarea id="comment" name="comment" rows="5" maxlength="1600" required></textarea><br><br>
-    
-                <input type="submit" value="Submit">
-            </fieldset>
-        </form>
-    </section>
- 
-    <section>
-        <div class="container">
-            <h1>Request Call Back</h1>
-            <form action="{{ url_for('main.balloon') }}" method="post">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
-    
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-    
-                <label for="message">Message:</label>
-                <textarea id="message" name="message" rows="5" required></textarea>
-    
-                <button type="submit">Send Message</button>
-            </form>
-        </div>
-    </section>
+    <main>
+        <h1>404 - Page Not Found</h1>
+        <p>Sorry, the page you are looking for does not exist.</p>
+        <a href="{{ url_for('main.home') }}" aria-label="Return to the homepage">Go back to the homepage</a>
+    </main>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
