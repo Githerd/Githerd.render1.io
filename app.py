@@ -20,16 +20,16 @@ app = Flask(__name__)
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587  
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = os.getenv('kmat.adebisi@gmail.com')
-app.config['MAIL_PASSWORD'] = os.getenv('yumyumsugar_1')
-app.config['MAIL_DEFAULT_SENDER'] = os.getenv('Kareemat Adebisi')
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
 
 # Database Configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db' 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Secret key for session management
-app.secret_key = os.getenv('SECRET_KEY', 'yumyumsugar_1')
+app.secret_key = os.getenv('SECRET_KEY', 'default_secret_key')
 
 # Initialize extensions
 db = SQLAlchemy(app)
@@ -152,10 +152,11 @@ def contact():
         
         msg = Message('New Contact Form Submission',
                       sender=app.config['MAIL_DEFAULT_SENDER'],
-                      recipients=['your-email@example.com']) 
+                      recipients=['your-email@example.com'])  # Replace with your email
         msg.body = f'''
         Name: {name}
         Email: {email}
+        phone: {phone}
         Message: {message}
         '''
         mail.send(msg)
