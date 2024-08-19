@@ -20,19 +20,19 @@
         <a href="{{ url_for('auth.register') }}" class="navbar-item">Register Now</a>
     </nav>
 
-    <section>
+  <section>
         <div class="container">
          <h1>Give A Feedback</h1>
             
             <form action="{{ url_for('main.contact') }}" method="post">
-             <fieldset>
+            <fieldset>
                 <label for="name">Name:</label><br>
                 <input type="text" id="name" name="name" required><br><br>
 
                 <label for="email">Email:</label><br>
                 <input type="email" id="email" name="email" required><br><br>
 
-                <label for="choose">How do you feel about the page?</label><br>
+                      <label for="choose">How do you feel about the page?</label><br>
                 <select id="choose" name="choose">
                     <option value="I love it">I love it</option>
                     <option value="I like it">I like it</option>
@@ -41,6 +41,7 @@
                     <option value="Not another page about comedy">Not another page about comedy</option>
                     <option value="Nope, I'm out">Nope, I'm out</option>
                 </select>
+             
                 <br><br>
 
                 <label for="comment">Comment (max 1600 characters):</label><br>
@@ -72,7 +73,7 @@
             </form>
         </div>
     </section>
-
+    
     <div>
         <button onclick="backToTop()" id="back-to-top">Back to Top</button>
     </div>
