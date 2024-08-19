@@ -123,9 +123,9 @@ def home():
 def index():
     return render_template('main/index.html')
     
-@main_bp.route('/club')
-def club():
-    return render_template('main/club.html')
+@main_bp.route('/clubs')
+def clubs():
+    return render_template('main/clubs.html')
 
 @main_bp.route('/spin')
 def spin():
