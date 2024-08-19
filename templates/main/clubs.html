@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-
+<section>
     <nav class="navbar">
         <a href="{{ url_for('main.home') }}" class="navbar-item">
             <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Comedy Club Logo" width="48" height="48">
@@ -20,6 +20,9 @@
         <a href="{{ url_for('auth.register') }}" class="navbar-item">Register Now</a>
     </nav>
 
+        </section>
+
+    
     <section>
         <h1>Our Comedy Clubs</h1>
         <p>Discover the best comedy clubs in town.</p>
@@ -27,7 +30,7 @@
         <div class="content">
             <div id="content"></div>
 
-            <form action="#" method="post">
+            <form action="{{ url_for('main.club') }}" method="post">
                 <fieldset>
                     <legend>Upcoming Comedy Stand-Up Event in Ireland</legend>
                     <h2>Date: September 15, 2024</h2>
@@ -104,7 +107,9 @@
                 </tbody>
             </table>
         </div>
-
+        
+</section>
+    
         <div>
             <button onclick="backToTop()" id="back-to-top">Back to Top</button>
         </div>
@@ -115,14 +120,5 @@
         
         <script src="{{ url_for('static', filename='scripts.js') }}"></script>
     </section>
-</body>
-</html>
-
-    <footer>
-        <p>&copy; 2024 Comedy Club. All Rights Reserved.</p>
-    </footer>
-
-    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
-
 </body>
 </html>
