@@ -150,9 +150,9 @@ def contact():
         db.session.add(contact_message)
         db.session.commit()
         
-        msg = Message('New Contact Form Submission',
+           msg = Message('New Contact Form Submission',
                       sender=app.config['MAIL_DEFAULT_SENDER'],
-                      recipients=['kmat.adebisi@gmail.com]) 
+                      recipients=['kmat.adebisi@gmail.com'] )
         msg.body = f'''
         Name: {name}
         Email: {email}
