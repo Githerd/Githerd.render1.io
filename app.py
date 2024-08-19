@@ -149,21 +149,24 @@ def contact():
         contact_message = ContactMessage(name=name, email=email, message=message)
         db.session.add(contact_message)
         db.session.commit()
-        
-           msg = Message('New Contact Form Submission',
+
+        msg = Message('New Contact Form Submission',
                       sender=app.config['MAIL_DEFAULT_SENDER'],
-                      recipients=['kmat.adebisi@gmail.com'] )
+                      recipients=['kmat.adebisi@gmail.com'])
         msg.body = f'''
         Name: {name}
         Email: {email}
-        phone: {phone}
         Message: {message}
         '''
         mail.send(msg)
-        
+
         flash('Your message has been sent and stored successfully!', 'success')
         return redirect(url_for('main.balloon'))
 
+    if request.method == 'POST' and not form.validate():
+        flash('Please correct the errors in the form.', 'error')
+
+    return render_template('main/contact.html', form=form)
     if request.method == 'POST' and not form.validate():
         flash('Please correct the errors in the form.', 'error')
 
